@@ -58,28 +58,24 @@ int main(int argc,char *argv[]){
     int status;
     pid_t wpid;
     std::cout << "Parent waiting for children to finish..." << std::endl;
-    // This loop will wait for all children forked by this parent process
-    // that are still running or have exited but not yet reaped.
-    // It blocks until at least one child exits.
-    // wait() returns -1 when there are no more children to wait for.
+   
     while ((wpid = wait(&status)) > 0) {
         std::cout << "Child with PID " << wpid << " exited with status " << status << std::endl;
     }
-    // Check for errors or no children remaining
-    if (wpid == -1 && errno == ECHILD) { // ECHILD means no children
+   
+    if (wpid == -1 && errno == ECHILD) { 
         std::cout << "No more children to reap." << std::endl;
     } else if (wpid == -1) {
-        perror("wait error"); // Other wait-related errors
+        perror("wait error"); 
     }
 
 
-    // 3. Capture the end time
+    
     auto end_time = std::chrono::high_resolution_clock::now();
 
-    // 4. Calculate the duration -- THIS LINE MUST BE BEFORE YOU USE 'duration'
+    
     std::chrono::duration<double> duration = end_time - start_time;
 
-    // Output the duration
     std::cout << "Total execution time: " << duration.count() << " seconds" << std::endl;
 
 }

@@ -26,6 +26,7 @@ int executeCryption(const std::string &taskData){
     else{
         char ch; //decrypt
         while(task.f_stream.get(ch)){
+             if(ch=='*'){return -1;}
             ch=(ch-key+256)%256;
             task.f_stream.seekp(-1,std::ios::cur);
             task.f_stream.put(ch);
